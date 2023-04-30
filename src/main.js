@@ -16,7 +16,8 @@ window.onload = () => {
 // 配列を作成しレンダリングする
 const game = () => {
     dataArray = createDataArray();
-    // console.log(dataArray);
+    console.log(dataArray);
+    renderData(dataArray);
 }
 
 // プレイヤーを返す関数
@@ -75,12 +76,36 @@ const lineReverse = () => {
 
 }
 
-// 盤面を作り直す
-const lenderData = () => {
+// 盤面を生成する
+const renderData = (dataArray) => {
+    const main = document.getElementById('main');
+    allRemove(main);
 
+    dataArray.forEach((y, yIndex) => {
+        const div1 = document.createElement('div');
+        div1.classList.add('tr');
+
+        y.forEach((x, xIndex) => {
+            const div2 = document.createElement('div');
+            div2.classList.add('td');
+            if (x) {
+                div2.innerHTML = x === 1 ? '○' : '●';
+            }
+
+            div2.addEventListener('click', {
+                x: xIndex,
+                y: yIndex,
+                handleEvent: handleCellClick,
+            });
+            div1.appendChild(div2);
+        });
+        main.appendChild(div1);
+    });
 }
 
-// 盤面を削除する関数
-const allRemove = () => {
-
+// 盤面のDOMノードの子ノードを全て削除する
+const allRemove = (node) => {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
 }
